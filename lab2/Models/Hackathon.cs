@@ -23,7 +23,7 @@ namespace HackathonApp.Models
         private List<int> GenerateRandomList(int min, int max)
         {
             Random random = new Random();
-            return new List<int>(Enumerable.Range(min, max + 1).OrderBy(x => random.Next()));
+            return new List<int>(Enumerable.Range(min, max).OrderBy(x => random.Next()));
         }
 
         private void GenerateWishlists()
@@ -35,29 +35,12 @@ namespace HackathonApp.Models
             {
                 foreach (var participant in participants)
                 {
-                    participant.Wishlist = this.GenerateRandomList(0, count - 1);
+                    participant.Wishlist = this.GenerateRandomList(1, count);
                 }
             };
 
             generateWishlist(this.Juniors.ConvertAll(x => (HackathonParticipant)x), teamLeadCount);
             generateWishlist(this.TeamLeads.ConvertAll(x => (HackathonParticipant)x), juniorCount);
-        }
-
-
-        public double CalculateHarmonicity()
-        {
-            double totalSatisfaction = 0;
-
-            foreach (var pair in Team)
-            {
-                int juniorSatisfaction = 20 - Juniors[pair.JuniorId].Wishlist[pair.TeamLeadId];
-                int teamLeadSatisfaction = 20 - TeamLeads[pair.TeamLeadId].Wishlist[pair.JuniorId];
-
-                totalSatisfaction += (2.0 * juniorSatisfaction * teamLeadSatisfaction) /
-                                    (juniorSatisfaction + teamLeadSatisfaction);
-            }
-
-            return totalSatisfaction / Juniors.Count;
         }
     }
 }

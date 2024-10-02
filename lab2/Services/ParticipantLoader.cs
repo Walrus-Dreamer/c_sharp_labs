@@ -19,16 +19,10 @@ namespace HackathonApp.Services
 
         private List<T> LoadParticipants<T>(string filePath, Func<string, T> createParticipant) where T : HackathonParticipant
         {
-            var participants = new List<T>();
-
-            foreach (var line in File.ReadAllLines(filePath))
-            {
-                var columns = line.Split(';');
-                var name = columns[1];
-                participants.Add(createParticipant(name));
-            }
-
-            return participants;
+            return File.ReadAllLines(filePath)
+                   .Skip(1) // Skip header.
+                   .Select(line => createParticipant(line.Split(';')[1])) // We need only names with surnames.
+                   .ToList();
         }
     }
 }

@@ -26,12 +26,19 @@ namespace HackathonApp.Services
             List<Junior> juniors = _hrManager.LoadJuniors();
             List<TeamLead> teamLeads = _hrManager.LoadTeamLeads();
 
-            for (int i = 0; i < 1000; i++)
+            double totalHarmonicity = 0;
+            int hackathonCount = 1000;
+
+            for (int i = 0; i < hackathonCount; i++)
             {
                 var hackathon = new Hackathon(juniors, teamLeads, _teamBuildingStrategy);
-                double harmonicity = hackathon.CalculateHarmonicity();
+
+                double harmonicity = _hrDirector.CalculateHarmonicity(hackathon.Juniors, hackathon.TeamLeads, hackathon.Team);
+                totalHarmonicity += harmonicity;
                 Console.WriteLine($"Hackathon {i + 1}: Harmonicity = {harmonicity:F2}");
             }
+
+            Console.WriteLine($"Average Harmonicity: {totalHarmonicity / hackathonCount:F2}");
 
             return Task.CompletedTask;
         }
