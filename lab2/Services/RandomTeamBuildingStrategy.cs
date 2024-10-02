@@ -13,14 +13,14 @@ namespace HackathonApp.Services
             var juniorIndices = Enumerable.Range(0, juniors.Count).OrderBy(x => random.Next()).ToList();
             var teamLeadIndices = Enumerable.Range(0, teamLeads.Count).OrderBy(x => random.Next()).ToList();
 
-            var pairs = new List<Pair>();
+            var Team = new List<Pair>();
 
             for (int i = 0; i < juniors.Count; i++)
             {
-                pairs.Add(new Pair(teamLeadIndices[i], juniorIndices[i]));
+                Team.Add(new Pair(teamLeadIndices[i], juniorIndices[i]));
             }
 
-            return pairs;
+            return Team;
         }
     }
 }

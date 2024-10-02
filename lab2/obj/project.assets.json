@@ -1747,11 +1747,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/white/projects/NSU/c_sharp/lab2/lab2.csproj",
+      "projectUniqueName": "/Users/white/projects/NSU/c_sharp_labs/lab2/lab2.csproj",
       "projectName": "lab2",
-      "projectPath": "/Users/white/projects/NSU/c_sharp/lab2/lab2.csproj",
+      "projectPath": "/Users/white/projects/NSU/c_sharp_labs/lab2/lab2.csproj",
       "packagesPath": "/Users/white/.nuget/packages/",
-      "outputPath": "/Users/white/projects/NSU/c_sharp/lab2/obj/",
+      "outputPath": "/Users/white/projects/NSU/c_sharp_labs/lab2/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/white/.nuget/NuGet/NuGet.Config"

@@ -41,13 +41,13 @@ public class Hackathon
 {
     public List<Junior> Juniors { get; set; }
     public List<TeamLead> TeamLeads { get; set; }
-    public List<Pair> Pairs { get; set; }
+    public List<Pair> Team { get; set; }
 
     public Hackathon(string juniorsFile, string teamLeadsFile)
     {
         this.Juniors = LoadParticipants<Junior>(juniorsFile, line => new Junior(line));
         this.TeamLeads = LoadParticipants<TeamLead>(teamLeadsFile, line => new TeamLead(line));
-        this.Pairs = GenerateRandomPairs();
+        this.Team = GenerateRandomTeam();
         this.GenerateWishlists();
     }
 
@@ -59,19 +59,19 @@ public class Hackathon
                    .ToList();
     }
 
-    private List<Pair> GenerateRandomPairs()
+    private List<Pair> GenerateRandomTeam()
     {
         Random random = new Random();
         var indices = Enumerable.Range(0, Juniors.Count).ToList();
         indices = indices.OrderBy(x => random.Next()).ToList();
 
-        var pairs = new List<Pair>();
+        var Team = new List<Pair>();
         for (int i = 0; i < Juniors.Count; i++)
         {
-            pairs.Add(new Pair(i, indices[i]));
+            Team.Add(new Pair(i, indices[i]));
         }
 
-        return pairs;
+        return Team;
     }
 
     private void GenerateWishlists()
@@ -101,7 +101,7 @@ public class Hackathon
     {
         double totalSatisfaction = 0;
 
-        foreach (var pair in Pairs)
+        foreach (var pair in Team)
         {
             int juniorSatisfaction = 20 - Juniors[pair.JuniorId].Wishlist[pair.TeamLeadId];
             int teamLeadSatisfaction = 20 - TeamLeads[pair.TeamLeadId].Wishlist[pair.JuniorId];

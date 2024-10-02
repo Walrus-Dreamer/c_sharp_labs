@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "67e8GzId1A0=",
+  "dgSpecHash": "eGcKekkC7Gk=",
   "success": true,
-  "projectFilePath": "/Users/white/projects/NSU/c_sharp/lab2/lab2.csproj",
+  "projectFilePath": "/Users/white/projects/NSU/c_sharp_labs/lab2/lab2.csproj",
   "expectedPackageFiles": [
     "/Users/white/.nuget/packages/microsoft.extensions.configuration/8.0.0/microsoft.extensions.configuration.8.0.0.nupkg.sha512",
     "/Users/white/.nuget/packages/microsoft.extensions.configuration.abstractions/8.0.0/microsoft.extensions.configuration.abstractions.8.0.0.nupkg.sha512",

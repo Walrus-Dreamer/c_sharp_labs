@@ -1,29 +1,25 @@
+using System.Collections.Generic;
 using HackathonApp.Models;
 
 namespace HackathonApp.Services
 {
     public class HrManager
     {
-        private readonly ITeamBuildingStrategy _strategy;
+        private readonly ParticipantLoader _participantLoader;
 
-        public HrManager(ITeamBuildingStrategy strategy)
+        public HrManager(ParticipantLoader participantLoader)
         {
-            _strategy = strategy;
+            _participantLoader = participantLoader;
         }
 
-        public void OrganizeHackathons(int count, HrDirector director)
+        public List<Junior> LoadJuniors()
         {
-            double totalHarmonicity = 0;
+            return _participantLoader.LoadJuniors("../CSHARP_2024_NSU/Juniors20.csv");
+        }
 
-            for (int i = 0; i < count; i++)
-            {
-                var hackathon = new Hackathon("../CSHARP_2024_NSU/Juniors20.csv", "../CSHARP_2024_NSU/TeamLeads20.csv");
-                double harmonicity = hackathon.CalculateHarmonicity();
-                totalHarmonicity += harmonicity;
-                director.ReceiveHackathonResults(harmonicity);
-            }
-
-            Console.WriteLine($"Average Harmonicity: {totalHarmonicity / count:F2}");
+        public List<TeamLead> LoadTeamLeads()
+        {
+            return _participantLoader.LoadTeamLeads("../CSHARP_2024_NSU/TeamLeads20.csv");
         }
     }
 }

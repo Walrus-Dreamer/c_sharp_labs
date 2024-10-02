@@ -1,7 +1,6 @@
-﻿using HackathonApp.Services;
-using HackathonApp.Models;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using HackathonApp.Services;
 
 namespace HackathonApp
 {
@@ -13,10 +12,10 @@ namespace HackathonApp
                 .ConfigureServices((hostContext, services) =>
                 {
                     services.AddHostedService<HackathonWorker>();
-                    services.AddTransient<Hackathon>();
-                    services.AddTransient<ITeamBuildingStrategy, RandomTeamBuildingStrategy>();
                     services.AddTransient<HrManager>();
                     services.AddTransient<HrDirector>();
+                    services.AddTransient<ParticipantLoader>();
+                    services.AddScoped<ITeamBuildingStrategy, RandomTeamBuildingStrategy>();
                 })
                 .Build();
 
