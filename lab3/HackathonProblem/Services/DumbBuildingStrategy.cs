@@ -7,19 +7,16 @@ namespace HackathonProblem.Services
 {
     public class DumbBuildingStrategy : ITeamBuildingStrategy
     {
-        public List<Pair> BuildTeams(List<Junior> juniors, List<TeamLead> teamLeads)
+        public List<Pair> BuildTeams(List<Junior> juniors, List<TeamLead> teamLeads, Config config)
         {
-            var juniorIndices = Enumerable.Range(0, juniors.Count).ToList();
-            var teamLeadIndices = Enumerable.Range(0, teamLeads.Count).ToList();
+            var team = new List<Pair>();
 
-            var Team = new List<Pair>();
-
-            for (int i = 0; i < juniors.Count; i++)
+            for (int i = 0; i < config.teamsCount; i++)
             {
-                Team.Add(new Pair(teamLeadIndices[i], juniorIndices[i]));
+                team.Add(new Pair(teamLeads[i], juniors[i], config));
             }
 
-            return Team;
+            return team;
         }
     }
 }

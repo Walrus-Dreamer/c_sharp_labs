@@ -12,8 +12,9 @@ namespace HackathonProblem.Services
 
             foreach (var pair in pairs)
             {
-                int juniorSatisfaction = maxSatisfaction - juniors[pair.JuniorId].Wishlist[pair.TeamLeadId] + 1; // If TeamLead is top 1 for Junior, than Junior will be satisfied by maxSatisfaction points.
-                int teamLeadSatisfaction = maxSatisfaction - teamLeads[pair.TeamLeadId].Wishlist[pair.JuniorId] + 1; // If Junior is top 1 for TeamLead, than TeamLead will be satisfied by maxSatisfaction points.
+                int juniorSatisfaction = pair.JuniorSatisfaction;
+                // int teamLeadSatisfaction = maxSatisfaction - teamLeads[pair.TeamLeadId].Wishlist[pair.JuniorId] + 1; // If Junior is top 1 for TeamLead, than TeamLead will be satisfied by maxSatisfaction points.
+                int teamLeadSatisfaction = pair.TeamLeadSatisfaction;
 
                 harmonicityDivisor += 1.0 / juniorSatisfaction + 1.0 / teamLeadSatisfaction;
             }

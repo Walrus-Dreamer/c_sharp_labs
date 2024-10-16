@@ -4,6 +4,6 @@ namespace HackathonProblem.Services
 {
     public interface ITeamBuildingStrategy
     {
-        List<Pair> BuildTeams(List<Junior> juniors, List<TeamLead> teamLeads);
+        List<Pair> BuildTeams(List<Junior> juniors, List<TeamLead> teamLeads, Config config);
     }
 }

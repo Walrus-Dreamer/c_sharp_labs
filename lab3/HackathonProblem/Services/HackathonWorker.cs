@@ -30,13 +30,13 @@ namespace HackathonProblem.Services
             List<TeamLead> teamLeads = _hrManager.LoadTeamLeads();
 
             double totalHarmonicity = 0;
-            int hackathonCount = this._config.HackathonCount;
+            int hackathonCount = this._config.hackathonCount;
 
             for (int i = 0; i < hackathonCount; i++)
             {
-                var hackathon = new Hackathon(juniors, teamLeads, _teamBuildingStrategy);
+                var hackathon = new Hackathon(juniors, teamLeads, _teamBuildingStrategy, this._config);
 
-                double harmonicity = _hrDirector.CalculateHarmonicity(hackathon.Juniors, hackathon.TeamLeads, hackathon.Team);
+                double harmonicity = _hrDirector.CalculateHarmonicity(hackathon.juniors, hackathon.teamLeads, hackathon.team);
                 totalHarmonicity += harmonicity;
                 Console.WriteLine($"Hackathon {i + 1}: Harmonicity = {harmonicity:F2}");
             }

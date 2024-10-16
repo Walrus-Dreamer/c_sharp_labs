@@ -6,17 +6,17 @@ namespace HackathonProblem.Models
 {
     public class Hackathon
     {
-        public List<Junior> Juniors { get; set; }
-        public List<TeamLead> TeamLeads { get; set; }
-        public List<Pair> Team { get; set; }
+        public List<Junior> juniors { get; set; }
+        public List<TeamLead> teamLeads { get; set; }
+        public List<Pair> team { get; set; }
         private readonly ITeamBuildingStrategy _teamBuildingStrategy;
 
-        public Hackathon(List<Junior> juniors, List<TeamLead> teamLeads, ITeamBuildingStrategy teamBuildingStrategy)
+        public Hackathon(List<Junior> juniors, List<TeamLead> teamLeads, ITeamBuildingStrategy teamBuildingStrategy, Config config)
         {
-            this.Juniors = juniors;
-            this.TeamLeads = teamLeads;
+            this.juniors = juniors;
+            this.teamLeads = teamLeads;
             this._teamBuildingStrategy = teamBuildingStrategy;
-            this.Team = _teamBuildingStrategy.BuildTeams(juniors, teamLeads);
+            this.team = _teamBuildingStrategy.BuildTeams(juniors, teamLeads, config);
             this.GenerateWishlists();
         }
 
@@ -28,8 +28,8 @@ namespace HackathonProblem.Models
 
         private void GenerateWishlists()
         {
-            int juniorCount = this.TeamLeads.Count;
-            int teamLeadCount = this.Juniors.Count;
+            int juniorCount = this.teamLeads.Count;
+            int teamLeadCount = this.juniors.Count;
 
             Action<List<HackathonParticipant>, int> generateWishlist = (participants, count) =>
             {
@@ -39,8 +39,8 @@ namespace HackathonProblem.Models
                 }
             };
 
-            generateWishlist(this.Juniors.ConvertAll(x => (HackathonParticipant)x), teamLeadCount);
-            generateWishlist(this.TeamLeads.ConvertAll(x => (HackathonParticipant)x), juniorCount);
+            generateWishlist(this.juniors.ConvertAll(x => (HackathonParticipant)x), teamLeadCount);
+            generateWishlist(this.teamLeads.ConvertAll(x => (HackathonParticipant)x), juniorCount);
         }
     }
 }

@@ -28,7 +28,7 @@ public class HackathonTests
         var hackathon = new Hackathon(juniors, teamLeads, teamBuildingStrategy);
 
 
-        double harmonicity = hrDirector.CalculateHarmonicity(hackathon.Juniors, hackathon.TeamLeads, hackathon.Team);
+        double harmonicity = hrDirector.CalculateHarmonicity(hackathon.juniors, hackathon.teamLeads, hackathon.team);
 
 
         Assert.NotEqual(10.0, harmonicity, 1); // Ожидаемое значение гармоничности

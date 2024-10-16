@@ -28,7 +28,7 @@ namespace HackathonProblem.Tests
             var hackathon = new Hackathon(juniors, teamLeads, teamBuildingStrategy);
 
 
-            double harmonicity = hrDirector.CalculateHarmonicity(hackathon.Juniors, hackathon.TeamLeads, hackathon.Pairs);
+            double harmonicity = hrDirector.CalculateHarmonicity(hackathon.juniors, hackathon.teamLeads, hackathon.Pairs);
 
 
             Assert.Equal(10.0, harmonicity, 1); // Ожидаемое значение гармоничности

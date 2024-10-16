@@ -16,12 +16,12 @@ namespace HackathonProblem.Services
 
         public List<Junior> LoadJuniors()
         {
-            return _participantLoader.LoadJuniors(this._config.JuniorsPath);
+            return _participantLoader.LoadJuniors(this._config.juniorsPath);
         }
 
         public List<TeamLead> LoadTeamLeads()
         {
-            return _participantLoader.LoadTeamLeads(this._config.TeamLeadsPath);
+            return _participantLoader.LoadTeamLeads(this._config.teamLeadsPath);
         }
     }
 }

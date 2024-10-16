@@ -2,16 +2,17 @@ namespace HackathonProblem.Models
 {
     public class Config
     {
-        public int HackathonCount { get; }
-        public string JuniorsPath { get; }
-        public string TeamLeadsPath { get; }
+        public int hackathonCount { get; }
+        public int teamsCount { get; }
+        public string juniorsPath { get; }
+        public string teamLeadsPath { get; }
 
-        public Config(int hackathonCount, string juniorsPath, string teamLeadsPath)
+        public Config(int hackathonCount, int teamsCount, string juniorsPath, string teamLeadsPath)
         {
-            HackathonCount = hackathonCount;
-            JuniorsPath = juniorsPath;
-            TeamLeadsPath = teamLeadsPath;
+            this.hackathonCount = hackathonCount;
+            this.teamsCount = teamsCount;
+            this.juniorsPath = juniorsPath;
+            this.teamLeadsPath = teamLeadsPath;
         }
     }
-
 }
