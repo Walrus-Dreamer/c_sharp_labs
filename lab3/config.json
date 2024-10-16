@@ -1,5 +1,5 @@
 {
   "hackathonCount": 1000,
-  "juniorsPath": "../CSHARP_2024_NSU/Juniors20.csv",
-  "teamLeadsPath": "../CSHARP_2024_NSU/TeamLeads20.csv"
+  "juniorsPath": "../../CSHARP_2024_NSU/Juniors20.csv",
+  "teamLeadsPath": "../../CSHARP_2024_NSU/TeamLeads20.csv"
 }
