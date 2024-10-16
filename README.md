@@ -4,20 +4,28 @@
 dotnet add package Microsoft.Extensions.Hosting
 dotnet add package Microsoft.Extensions.DependencyInjection
 dotnet add package xunit
+dotnet add package Newtonsoft.Json
 ```
 
 # Запуск проекта.
 
+Перейти в директорию требуемой лабораторной работы, затем выполнить команды:
+
 ```sh
+cd lab<LAB_NUMBER>
 dotnet run
 ```
 
 # Запуск тестов.
 
+Перейти в директорию требуемой лабораторной работы, затем выполнить команды:
+
 ```sh
 dotnet restore
 dotnet test
 ```
+
+[Сайт с задачей](https://sites.google.com/view/fitnsudotnet/).
 
 # Описание задач.
 

@@ -14,7 +14,7 @@ namespace HackathonApp.Services
 
         public List<Junior> LoadJuniors()
         {
-            return _participantLoader.LoadJuniors("../CSHARP_2024_NSU/Juniors20.csv"); // TODO: cuse jsons
+            return _participantLoader.LoadJuniors("../CSHARP_2024_NSU/Juniors20.csv"); // TODO: use jsons
         }
 
         public List<TeamLead> LoadTeamLeads()
