@@ -4,8 +4,8 @@ namespace HackathonApp.Models
 {
     public abstract class HackathonParticipant
     {
-        public string Name { get; set; }
-        public List<int> Wishlist { get; set; }
+        public string Name { get; set; } // TODO: private
+        public List<int> Wishlist { get; set; } // TODO: private
 
         protected HackathonParticipant(string name)
         {

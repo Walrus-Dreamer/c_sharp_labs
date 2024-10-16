@@ -6,9 +6,9 @@ namespace HackathonApp.Models
 {
     public class Hackathon
     {
-        public List<Junior> Juniors { get; set; }
-        public List<TeamLead> TeamLeads { get; set; }
-        public List<Pair> Team { get; set; }
+        public List<Junior> Juniors { get; set; } // TODO: private
+        public List<TeamLead> TeamLeads { get; set; } // TODO: private
+        public List<Pair> Team { get; set; } // TODO: private
         private readonly ITeamBuildingStrategy _teamBuildingStrategy;
 
         public Hackathon(List<Junior> juniors, List<TeamLead> teamLeads, ITeamBuildingStrategy teamBuildingStrategy)

@@ -1,0 +1,69 @@
+using HackathonApp.Models;
+using HackathonApp.Services;
+using System.Collections.Generic;
+using Xunit;
+
+namespace HackathonApp.Tests
+{
+    public class HrDirectorTests
+    {
+        private HrDirector _hrDirector = new HrDirector();
+
+        [Fact]
+        public void HarmonicMean_OfIdenticalNumbers_ShouldReturnThatNumber()
+        {
+
+            var numbers = new List<double> { 5, 5, 5 };
+            var expected = 5;
+
+
+            var result = _hrDirector.CalculateHarmonicMean(numbers);
+
+
+            Assert.Equal(expected, result);
+        }
+
+        [Fact]
+        public void HarmonicMean_TwoNumbers_ShouldReturnCorrectValue()
+        {
+
+            var numbers = new List<double> { 2, 6 };
+            var expected = 3;
+
+
+            var result = _hrDirector.CalculateHarmonicMean(numbers);
+
+
+            Assert.Equal(expected, result);
+        }
+
+        [Fact]
+        public void Harmonicity_ShouldReturnPredefinedValue()
+        {
+
+            var juniors = new List<Junior>
+            {
+                new Junior("John") { Wishlist = new List<int> { 0, 1, 2 } },
+                new Junior("Jane") { Wishlist = new List<int> { 1, 0, 2 } }
+            };
+
+            var teamLeads = new List<TeamLead>
+            {
+                new TeamLead("TeamLead1") { Wishlist = new List<int> { 0, 1 } },
+                new TeamLead("TeamLead2") { Wishlist = new List<int> { 1, 0 } }
+            };
+
+            var pairs = new List<Pair>
+            {
+                new Pair(0, 0),
+                new Pair(1, 1)
+            };
+
+
+            double harmonicity = _hrDirector.CalculateHarmonicity(juniors, teamLeads, pairs);
+
+
+            Assert.Equal(10.0, harmonicity, 1);
+        }
+    }
+}
