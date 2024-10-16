@@ -25,7 +25,7 @@ dotnet restore
 dotnet test
 ```
 
-[Сайт с задачей](https://sites.google.com/view/fitnsudotnet/).
+[Сайт с задачей.](https://sites.google.com/view/fitnsudotnet/)
 
 # Описание задач.
 
