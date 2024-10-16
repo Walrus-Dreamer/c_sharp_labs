@@ -19,7 +19,7 @@ namespace HackathonProblem
                     services.AddTransient<HrManager>();
                     services.AddTransient<HrDirector>();
                     services.AddTransient<ParticipantLoader>();
-                    services.AddScoped<ITeamBuildingStrategy, RandomTeamBuildingStrategy>();
+                    services.AddScoped<ITeamBuildingStrategy, DumbBuildingStrategy>();
                 })
                 .Build();
 

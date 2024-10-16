@@ -10,9 +10,9 @@ namespace HackathonProblem.Models
         public Pair(TeamLead teamLead, Junior junior, Config config)
         {
             this.teamLead = teamLead;
-            this.TeamLeadSatisfaction = 1;
+            this.TeamLeadSatisfaction = config.teamsCount - teamLead.Wishlist[junior.id];
             this.junior = junior;
-            this.JuniorSatisfaction = 1;
+            this.JuniorSatisfaction = config.teamsCount - junior.Wishlist[teamLead.id];
         }
     }
 }

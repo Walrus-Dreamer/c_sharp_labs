@@ -36,7 +36,7 @@ namespace HackathonProblem.Services
             {
                 var hackathon = new Hackathon(juniors, teamLeads, _teamBuildingStrategy, this._config);
 
-                double harmonicity = _hrDirector.CalculateHarmonicity(hackathon.juniors, hackathon.teamLeads, hackathon.team);
+                double harmonicity = _hrDirector.CalculateHarmonicity(hackathon.juniors, hackathon.teamLeads, hackathon.team, this._config);
                 totalHarmonicity += harmonicity;
                 Console.WriteLine($"Hackathon {i + 1}: Harmonicity = {harmonicity:F2}");
             }

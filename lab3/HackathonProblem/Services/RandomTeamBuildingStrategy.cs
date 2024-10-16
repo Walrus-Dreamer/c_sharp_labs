@@ -10,14 +10,15 @@ namespace HackathonProblem.Services
         public List<Pair> BuildTeams(List<Junior> juniors, List<TeamLead> teamLeads, Config config)
         {
             Random random = new Random();
-            var juniorIndices = Enumerable.Range(0, juniors.Count).OrderBy(x => random.Next()).ToList();
-            var teamLeadIndices = Enumerable.Range(0, teamLeads.Count).OrderBy(x => random.Next()).ToList();
+            var juniorIndexes = Enumerable.Range(0, config.teamsCount).OrderBy(x => random.Next()).ToList();
+            var teamLeadIndexes = Enumerable.Range(0, config.teamsCount).OrderBy(x => random.Next()).ToList();
 
             var team = new List<Pair>();
-
-            for (int i = 0; i < juniors.Count; i++)
+            for (int i = 0; i < config.teamsCount; i++)
             {
-                team.Add(new Pair(teamLeads[teamLeadIndices[i]], juniors[juniorIndices[i]], config));
+                TeamLead pickedTeamLead = teamLeads[teamLeadIndexes[i]];
+                Junior pickedJunior = juniors[juniorIndexes[i]];
+                team.Add(new Pair(pickedTeamLead, pickedJunior, config));
             }
 
             return team;

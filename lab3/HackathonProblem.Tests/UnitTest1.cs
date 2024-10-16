@@ -1,6 +1,7 @@
 namespace HackathonProblem.Tests;
 
 using HackathonProblem.Models;
+using HackathonProblem.Utils;
 using HackathonProblem.Services;
 using System.Collections.Generic;
 using Xunit;
@@ -10,28 +11,29 @@ public class HackathonTests
     [Fact]
     public void Hackathon_ShouldReturnPredefinedHarmonicityLevel()
     {
+        Config config = ConfigReader.ReadConfig("../../../../config.json");
         var juniors = new List<Junior>
             {
-                new Junior("John") { Wishlist = new List<int> { 0, 1, 2 } },
-                new Junior("Jane") { Wishlist = new List<int> { 1, 0, 2 } }
+                new Junior(0, "John", config),
+                new Junior(1, "Jane", config)
             };
 
         var teamLeads = new List<TeamLead>
             {
-                new TeamLead("TeamLead1") { Wishlist = new List<int> { 0, 1 } },
-                new TeamLead("TeamLead2") { Wishlist = new List<int> { 1, 0 } }
+                new TeamLead(0, "TeamLead1", config),
+                new TeamLead(1, "TeamLead2", config)
             };
 
         var hrDirector = new HrDirector();
         // var teamBuildingStrategy = new RandomTeamBuildingStrategy();
         var teamBuildingStrategy = new DumbBuildingStrategy();
-        var hackathon = new Hackathon(juniors, teamLeads, teamBuildingStrategy);
+        var hackathon = new Hackathon(juniors, teamLeads, teamBuildingStrategy, config);
 
 
-        double harmonicity = hrDirector.CalculateHarmonicity(hackathon.juniors, hackathon.teamLeads, hackathon.team);
+        double harmonicity = hrDirector.CalculateHarmonicity(hackathon.juniors, hackathon.teamLeads, hackathon.team, config);
 
 
-        Assert.NotEqual(10.0, harmonicity, 1); // Ожидаемое значение гармоничности
+        Assert.Equal(1.33, harmonicity, 2);
     }
 }
 
