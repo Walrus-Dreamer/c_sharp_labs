@@ -4,8 +4,8 @@ namespace HackathonProblem.Models
 {
     public abstract class HackathonParticipant
     {
-        public int id { get; set; }
-        private string Name { get; set; }
+        public int id { get; }
+        public string Name { get; }
         public List<int> Wishlist { get; set; }
 
         protected HackathonParticipant(int id, string name, Config config)
