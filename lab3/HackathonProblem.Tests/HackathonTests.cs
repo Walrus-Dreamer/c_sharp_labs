@@ -1,14 +1,13 @@
 namespace HackathonProblem.Tests;
 
 using HackathonProblem.Models;
-using HackathonProblem.Utils;
 using HackathonProblem.Services;
 using System.Collections.Generic;
 using Xunit;
 
 public class HackathonTests
 {
-    private Config config = new Config(10, 20, "../../CSHARP_2024_NSU/juniors.txt", "../../CSHARP_2024_NSU/teamLeads.txt");
+    private readonly Config config = new Config(10, 20, "../../../../../CSHARP_2024_NSU/Juniors20.csv", "../../../../../CSHARP_2024_NSU/TeamLeads20.csv");
 
     private List<T> GenerateParticipants<T>(int count, string namePrefix) where T : HackathonParticipant
     {
@@ -33,14 +32,12 @@ public class HackathonTests
 
     private List<TeamLead> GenerateTeamLeads() => GenerateParticipants<TeamLead>(this.config.teamsCount, "TeamLead");
 
-
     [Fact]
     public void Hackathon_ShouldReturnPredefinedHarmonicityLevel()
     {
         // Arrange.
         var juniors = this.GenerateJuniors();
         var teamLeads = this.GenerateTeamLeads();
-
         var hrDirector = new HrDirector();
         var teamBuildingStrategy = new DumbBuildingStrategy();
         var hackathon = new Hackathon(juniors, teamLeads, teamBuildingStrategy, this.config);
@@ -51,5 +48,41 @@ public class HackathonTests
         // Assert.
         Assert.Equal(5.555, harmonicity, 2);
     }
-}
 
+    [Fact]
+    public void Hackathon_ShouldGenerateCorrectNumberOfJuniors()
+    {
+        // Arrange & Act.
+        var juniors = this.GenerateJuniors();
+
+        // Assert.
+        Assert.Equal(this.config.teamsCount, juniors.Count);
+        Assert.All(juniors, junior => Assert.IsType<Junior>(junior));
+    }
+
+    [Fact]
+    public void Hackathon_ShouldGenerateCorrectNumberOfTeamLeads()
+    {
+        // Arrange & Act.
+        var teamLeads = this.GenerateTeamLeads();
+
+        // Assert.
+        Assert.Equal(this.config.teamsCount, teamLeads.Count);
+        Assert.All(teamLeads, teamLead => Assert.IsType<TeamLead>(teamLead));
+    }
+
+    [Fact]
+    public void Hackathon_ShouldHandleZeroTeams()
+    {
+        // Arrange.
+        var zeroConfig = new Config(0, 0, "../../../../../CSHARP_2024_NSU/Juniors20.csv", "../../../../../CSHARP_2024_NSU/TeamLeads20.csv");
+
+        // Act.
+        var juniors = GenerateParticipants<Junior>(zeroConfig.teamsCount, "Junior");
+        var teamLeads = GenerateParticipants<TeamLead>(zeroConfig.teamsCount, "TeamLead");
+
+        // Assert.
+        Assert.Empty(juniors);
+        Assert.Empty(teamLeads);
+    }
+}
