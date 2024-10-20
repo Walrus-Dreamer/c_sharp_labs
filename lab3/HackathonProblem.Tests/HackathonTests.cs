@@ -8,33 +8,48 @@ using Xunit;
 
 public class HackathonTests
 {
-    Config config = ConfigReader.ReadConfig("../../../../config.json"); // TODO: Задавать конфиг в коде.
+    private Config config = new Config(10, 20, "../../CSHARP_2024_NSU/juniors.txt", "../../CSHARP_2024_NSU/teamLeads.txt");
+
+    private List<T> GenerateParticipants<T>(int count, string namePrefix) where T : HackathonParticipant
+    {
+        var list = new List<T>();
+        var constructor = typeof(T).GetConstructor(new[] { typeof(int), typeof(string), typeof(Config) });
+
+        if (constructor == null)
+        {
+            throw new InvalidOperationException($"Type {typeof(T).Name} does not have a suitable constructor.");
+        }
+
+        for (int i = 0; i < count; i++)
+        {
+            var participant = (T)constructor.Invoke(new object[] { i, $"{namePrefix}{i}", this.config });
+            list.Add(participant);
+        }
+
+        return list;
+    }
+
+    private List<Junior> GenerateJuniors() => GenerateParticipants<Junior>(this.config.teamsCount, "Junior");
+
+    private List<TeamLead> GenerateTeamLeads() => GenerateParticipants<TeamLead>(this.config.teamsCount, "TeamLead");
+
 
     [Fact]
     public void Hackathon_ShouldReturnPredefinedHarmonicityLevel()
     {
-        var juniors = new List<Junior>
-            {
-                new Junior(0, "John", this.config),
-                new Junior(1, "Jane", this.config)
-            };
-
-        var teamLeads = new List<TeamLead>
-            {
-                new TeamLead(0, "TeamLead1", this.config),
-                new TeamLead(1, "TeamLead2", this.config)
-            };
+        // Arrange.
+        var juniors = this.GenerateJuniors();
+        var teamLeads = this.GenerateTeamLeads();
 
         var hrDirector = new HrDirector();
-        // var teamBuildingStrategy = new RandomTeamBuildingStrategy();
         var teamBuildingStrategy = new DumbBuildingStrategy();
         var hackathon = new Hackathon(juniors, teamLeads, teamBuildingStrategy, this.config);
 
-
+        // Act.
         double harmonicity = hrDirector.CalculateHarmonicity(hackathon.juniors, hackathon.teamLeads, hackathon.team, this.config);
 
-
-        Assert.Equal(1.33, harmonicity, 2);
+        // Assert.
+        Assert.Equal(5.555, harmonicity, 2);
     }
 }
 
