@@ -36,11 +36,13 @@ public class HackathonTests
     public void Hackathon_ShouldReturnPredefinedHarmonicityLevel()
     {
         // Arrange.
-        var juniors = this.GenerateJuniors();
-        var teamLeads = this.GenerateTeamLeads();
-        var hrDirector = new HrDirector();
-        var teamBuildingStrategy = new DumbBuildingStrategy();
-        var hackathon = new Hackathon(juniors, teamLeads, teamBuildingStrategy, this._config);
+        List<Junior> juniors = this.GenerateJuniors();
+        List<TeamLead> teamLeads = this.GenerateTeamLeads();
+        HrDirector hrDirector = new HrDirector();
+        ITeamBuildingStrategy teamBuildingStrategy = new DumbBuildingStrategy();
+        ParticipantLoader participantLoader = new ParticipantLoader();
+        HrManager hrManager = new HrManager(participantLoader, teamBuildingStrategy, this._config);
+        Hackathon hackathon = new Hackathon(hrManager, juniors, teamLeads, this._config);
 
         // Act.
         double harmonicity = hrDirector.CalculateHarmonicity(hackathon.juniors, hackathon.teamLeads, hackathon.team, this._config);

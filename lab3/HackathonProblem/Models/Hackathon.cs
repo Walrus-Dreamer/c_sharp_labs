@@ -6,17 +6,17 @@ namespace HackathonProblem.Models
 {
     public class Hackathon
     {
+        public HrManager hrManager { get; set; }
         public List<Junior> juniors { get; set; }
         public List<TeamLead> teamLeads { get; set; }
         public List<Pair> team { get; set; }
-        private readonly ITeamBuildingStrategy _teamBuildingStrategy;
 
-        public Hackathon(List<Junior> juniors, List<TeamLead> teamLeads, ITeamBuildingStrategy teamBuildingStrategy, Config config)
+        public Hackathon(HrManager hrManager, List<Junior> juniors, List<TeamLead> teamLeads, Config config)
         {
+            this.hrManager = hrManager;
             this.juniors = juniors;
             this.teamLeads = teamLeads;
-            this._teamBuildingStrategy = teamBuildingStrategy;
-            this.team = _teamBuildingStrategy.BuildTeams(juniors, teamLeads, config);
+            this.team = this.hrManager.BuildTeams(juniors, teamLeads);
         }
     }
 }
