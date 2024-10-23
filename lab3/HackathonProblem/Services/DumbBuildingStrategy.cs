@@ -9,7 +9,7 @@ namespace HackathonProblem.Services
     {
         public List<Pair> BuildTeams(List<Junior> juniors, List<TeamLead> teamLeads, Config config)
         {
-            var team = new List<Pair>();
+            List<Pair> team = new List<Pair>();
 
             for (int i = 0; i < config.teamsCount; i++)
             {

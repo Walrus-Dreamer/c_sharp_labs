@@ -18,11 +18,11 @@ namespace HackathonProblem.Tests
         {
             // Arrange.
             string filePath = "test_juniors.txt";
-            var fileData = "Header\n1;John Doe\n2;Jane Smith";
+            string fileData = "Header\n1;John Doe\n2;Jane Smith";
             File.WriteAllText(filePath, fileData);
 
             // Act.
-            var juniors = _participantLoader.LoadJuniors(filePath, _config);
+            List<Junior> juniors = _participantLoader.LoadJuniors(filePath, _config);
 
             // Assert.
             Assert.Equal(2, juniors.Count);
@@ -38,11 +38,11 @@ namespace HackathonProblem.Tests
         {
             // Arrange.
             string filePath = "test_teamleads.txt";
-            var fileData = "Header\n1;Alice Cooper\n2;Bob Marley";
+            string fileData = "Header\n1;Alice Cooper\n2;Bob Marley";
             File.WriteAllText(filePath, fileData);
 
             // Act.
-            var teamLeads = _participantLoader.LoadTeamLeads(filePath, _config);
+            List<TeamLead> teamLeads = _participantLoader.LoadTeamLeads(filePath, _config);
 
             // Assert.
             Assert.Equal(2, teamLeads.Count);
@@ -58,11 +58,11 @@ namespace HackathonProblem.Tests
         {
             // Arrange.
             string filePath = "test_juniors_invalid.txt";
-            var fileData = "Header\n1;John Doe";
+            string fileData = "Header\n1;John Doe";
             File.WriteAllText(filePath, fileData);
 
             // Act & Assert.
-            var exception = Assert.Throws<Exception>(() =>
+            Exception exception = Assert.Throws<Exception>(() =>
                 _participantLoader.LoadJuniors(filePath, _config));
 
             Assert.Equal("Wrong number of participants: 1 instead of 2", exception.Message);
@@ -76,11 +76,11 @@ namespace HackathonProblem.Tests
         {
             // Arrange.
             string filePath = "test_teamleads_invalid.txt";
-            var fileData = "Header\n1;Alice Cooper";
+            string fileData = "Header\n1;Alice Cooper";
             File.WriteAllText(filePath, fileData);
 
             // Act & Assert.
-            var exception = Assert.Throws<Exception>(() =>
+            Exception exception = Assert.Throws<Exception>(() =>
                 _participantLoader.LoadTeamLeads(filePath, _config));
 
             Assert.Equal("Wrong number of participants: 1 instead of 2", exception.Message);

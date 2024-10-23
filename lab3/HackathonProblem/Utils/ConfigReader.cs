@@ -8,7 +8,7 @@ namespace HackathonProblem.Utils
     {
         public static Config ReadConfig(string filePath)
         {
-            var json = File.ReadAllText(filePath);
+            string json = File.ReadAllText(filePath);
             var configData = JsonConvert.DeserializeObject<ConfigData>(json);
 
             return new Config(

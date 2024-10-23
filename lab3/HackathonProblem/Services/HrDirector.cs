@@ -5,12 +5,16 @@ namespace HackathonProblem.Services
 {
     public class HrDirector
     {
-        public double CalculateHarmonicity(List<Junior> juniors, List<TeamLead> teamLeads, List<Pair> pairs, Config config)
+        public double CalculateHarmonicity(List<Pair> pairs)
         {
             double harmonicityDivisor = 0;
-            int maxSatisfaction = juniors.Count;
+            int teamsCount = pairs.Count;
+            if (teamsCount == 0)
+            {
+                throw new System.DivideByZeroException("No pairs found.");
+            }
 
-            foreach (var pair in pairs)
+            foreach (Pair pair in pairs)
             {
                 int juniorSatisfaction = pair.JuniorSatisfaction;
                 int teamLeadSatisfaction = pair.TeamLeadSatisfaction;
@@ -18,7 +22,7 @@ namespace HackathonProblem.Services
                 harmonicityDivisor += 1.0 / juniorSatisfaction + 1.0 / teamLeadSatisfaction;
             }
 
-            return 2 * config.teamsCount / harmonicityDivisor;
+            return 2 * teamsCount / harmonicityDivisor;
         }
     }
 }

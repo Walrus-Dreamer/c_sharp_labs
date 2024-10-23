@@ -1,101 +1,70 @@
-// using System.Collections.Generic;
-// using Xunit;
-// using HackathonProblem.Models;
-// using HackathonProblem.Services;
+using System.Collections.Generic;
+using Xunit;
+using HackathonProblem.Models;
+using HackathonProblem.Services;
 
-// namespace HackathonProblem.Tests
-// {
-//     public class HrDirectorTests
-//     {
-//         [Fact]
-//         public void CalculateHarmonicity_ShouldReturnCorrectValue_ForValidInput()
-//         {
-//             // Arrange.
-//             var hrDirector = new HrDirector();
-//             var juniors = new List<Junior>
-//             {
-//                 new Junior { Name = "Junior 1" },
-//                 new Junior { Name = "Junior 2" }
-//             };
 
-//             var teamLeads = new List<TeamLead>
-//             {
-//                 new TeamLead { Name = "TeamLead 1" },
-//                 new TeamLead { Name = "TeamLead 2" }
-//             };
+public class HrDirectorTests
+{
+    private readonly Config _config;
 
-//             var pairs = new List<Pair>
-//             {
-//                 new Pair { JuniorSatisfaction = 4, TeamLeadSatisfaction = 5 },
-//                 new Pair { JuniorSatisfaction = 3, TeamLeadSatisfaction = 4 }
-//             };
+    public HrDirectorTests()
+    {
+        this._config = new Config(10, 20, "../../../../../CSHARP_2024_NSU/Juniors20.csv", "../../../../../CSHARP_2024_NSU/TeamLeads20.csv");
+    }
 
-//             var config = new Config { teamsCount = 2 };
+    private List<T> GenerateParticipants<T>(int count, string namePrefix) where T : HackathonParticipant
+    {
+        List<T> list = new List<T>();
+        var constructor = typeof(T).GetConstructor(new[] { typeof(int), typeof(string), typeof(Config) });
 
-//             double expectedHarmonicity = 2 * 2 / (1.0 / 4 + 1.0 / 5 + 1.0 / 3 + 1.0 / 4);
+        if (constructor == null)
+        {
+            throw new InvalidOperationException($"Type {typeof(T).Name} does not have a suitable constructor.");
+        }
 
-//             // Act.
-//             double result = hrDirector.CalculateHarmonicity(juniors, teamLeads, pairs, config);
+        for (int i = 0; i < count; i++)
+        {
+            T participant = (T)constructor.Invoke(new object[] { i, $"{namePrefix}{i}", this._config });
+            list.Add(participant);
+        }
 
-//             // Assert.
-//             Assert.Equal(expectedHarmonicity, result, precision: 6);
-//         }
+        return list;
+    }
 
-//         [Fact]
-//         public void CalculateHarmonicity_ShouldHandleEmptyPairsList()
-//         {
-//             // Arrange.
-//             var hrDirector = new HrDirector();
-//             var juniors = new List<Junior>
-//             {
-//                 new Junior { Name = "Junior 1" },
-//                 new Junior { Name = "Junior 2" }
-//             };
+    private List<Junior> GenerateJuniors() => GenerateParticipants<Junior>(this._config.teamsCount, "Junior");
 
-//             var teamLeads = new List<TeamLead>
-//             {
-//                 new TeamLead { Name = "TeamLead 1" },
-//                 new TeamLead { Name = "TeamLead 2" }
-//             };
+    private List<TeamLead> GenerateTeamLeads() => GenerateParticipants<TeamLead>(this._config.teamsCount, "TeamLead");
 
-//             var pairs = new List<Pair>();
-//             var config = new Config { teamsCount = 2 };
+    [Fact]
+    public void CalculateHarmonicity_ShouldReturnCorrectValue_ForValidInput()
+    {
+        // Arrange.
+        List<Junior> juniors = this.GenerateJuniors();
+        List<TeamLead> teamLeads = this.GenerateTeamLeads();
+        HrDirector hrDirector = new HrDirector();
+        ITeamBuildingStrategy teamBuildingStrategy = new DumbBuildingStrategy();
+        ParticipantLoader participantLoader = new ParticipantLoader();
+        HrManager hrManager = new HrManager(participantLoader, teamBuildingStrategy, this._config);
+        Hackathon hackathon = new Hackathon(hrManager, juniors, teamLeads, this._config);
 
-//             // Act & Assert.
-//             Assert.Throws<System.DivideByZeroException>(() =>
-//                 hrDirector.CalculateHarmonicity(juniors, teamLeads, pairs, config));
-//         }
+        // Act.
+        double harmonicity = hrDirector.CalculateHarmonicity(hackathon.teams);
 
-//         [Fact]
-//         public void CalculateHarmonicity_ShouldReturnInfinity_ForZeroSatisfaction()
-//         {
-//             // Arrange.
-//             var hrDirector = new HrDirector();
-//             var juniors = new List<Junior>
-//             {
-//                 new Junior { Name = "Junior 1" },
-//                 new Junior { Name = "Junior 2" }
-//             };
+        // Assert.
+        Assert.Equal(5.555, harmonicity, 2);
+    }
 
-//             var teamLeads = new List<TeamLead>
-//             {
-//                 new TeamLead { Name = "TeamLead 1" },
-//                 new TeamLead { Name = "TeamLead 2" }
-//             };
+    [Fact]
+    public void CalculateHarmonicity_ShouldHandleEmptyPairsList()
+    {
+        // Arrange.
+        List<Pair> pairs = new List<Pair>();
+        HrDirector hrDirector = new HrDirector();
 
-//             var pairs = new List<Pair>
-//             {
-//                 new Pair { JuniorSatisfaction = 0, TeamLeadSatisfaction = 5 },
-//                 new Pair { JuniorSatisfaction = 3, TeamLeadSatisfaction = 0 }
-//             };
+        // Act & Assert.
+        Assert.Throws<System.DivideByZeroException>(() =>
+            hrDirector.CalculateHarmonicity(pairs));
+    }
+}
 
-//             var config = new Config { teamsCount = 2 };
-
-//             // Act.
-//             double result = hrDirector.CalculateHarmonicity(juniors, teamLeads, pairs, config);
-
-//             // Assert.
-//             Assert.True(double.IsInfinity(result));
-//         }
-//     }
-// }

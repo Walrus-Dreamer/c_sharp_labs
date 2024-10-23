@@ -1,8 +1,6 @@
-using Xunit;
 using Moq;
 using HackathonProblem.Models;
 using HackathonProblem.Services;
-using System.Collections.Generic;
 
 public class HrManagerTests
 {
@@ -25,11 +23,11 @@ public class HrManagerTests
     public void LoadJuniors_ShouldReturnJuniorsList()
     {
         // Arrange.
-        var expectedJuniors = new List<Junior> { new Junior(0, "Junior0", this._config), new Junior(1, "Junior1", this._config) };
+        List<Junior> expectedJuniors = new List<Junior> { new Junior(0, "Junior0", this._config), new Junior(1, "Junior1", this._config) };
         _mockParticipantLoader.Setup(p => p.LoadJuniors(_config.juniorsPath, _config)).Returns(expectedJuniors);
 
         // Act.
-        var juniors = _hrManager.LoadJuniors();
+        List<Junior> juniors = _hrManager.LoadJuniors();
 
         // Assert.
         Assert.Equal(expectedJuniors, juniors);
@@ -40,11 +38,11 @@ public class HrManagerTests
     public void LoadTeamLeads_ShouldReturnTeamLeadsList()
     {
         // Arrange.
-        var expectedTeamLeads = new List<TeamLead> { new TeamLead(0, "TeamLead0", this._config), new TeamLead(1, "TeamLead1", this._config) };
+        List<TeamLead> expectedTeamLeads = new List<TeamLead> { new TeamLead(0, "TeamLead0", this._config), new TeamLead(1, "TeamLead1", this._config) };
         _mockParticipantLoader.Setup(p => p.LoadTeamLeads(_config.teamLeadsPath, _config)).Returns(expectedTeamLeads);
 
         // Act.
-        var teamLeads = _hrManager.LoadTeamLeads();
+        List<TeamLead> teamLeads = _hrManager.LoadTeamLeads();
 
         // Assert.
         Assert.Equal(expectedTeamLeads, teamLeads);
@@ -55,14 +53,14 @@ public class HrManagerTests
     public void BuildTeams_ShouldReturnListOfPairs()
     {
         // Arrange.
-        var juniors = new List<Junior> { new Junior(0, "Junior0", this._config), new Junior(1, "Junior1", this._config) };
-        var teamLeads = new List<TeamLead> { new TeamLead(0, "TeamLead0", this._config), new TeamLead(1, "TeamLead1", this._config) };
-        var expectedPairs = new List<Pair> { new Pair(teamLeads[0], juniors[0], _config), new Pair(teamLeads[1], juniors[1], _config) };
+        List<Junior> juniors = new List<Junior> { new Junior(0, "Junior0", this._config), new Junior(1, "Junior1", this._config) };
+        List<TeamLead> teamLeads = new List<TeamLead> { new TeamLead(0, "TeamLead0", this._config), new TeamLead(1, "TeamLead1", this._config) };
+        List<Pair> expectedPairs = new List<Pair> { new Pair(teamLeads[0], juniors[0], _config), new Pair(teamLeads[1], juniors[1], _config) };
 
         _mockTeamBuildingStrategy.Setup(t => t.BuildTeams(juniors, teamLeads, _config)).Returns(expectedPairs);
 
         // Act.
-        var pairs = _hrManager.BuildTeams(juniors, teamLeads);
+        List<Pair> pairs = _hrManager.BuildTeams(juniors, teamLeads);
 
         // Assert.
         Assert.Equal(expectedPairs, pairs);
