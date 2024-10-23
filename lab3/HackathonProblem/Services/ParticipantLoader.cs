@@ -7,12 +7,12 @@ namespace HackathonProblem.Services
         private int _nextJuniorId = 0;
         private int _nextTeamLeadId = 0;
 
-        public List<Junior> LoadJuniors(string filePath, Config config)
+        public virtual List<Junior> LoadJuniors(string filePath, Config config)
         {
             return LoadParticipants<Junior>(filePath, line => new Junior(_nextJuniorId++, line, config), config);
         }
 
-        public List<TeamLead> LoadTeamLeads(string filePath, Config config)
+        public virtual List<TeamLead> LoadTeamLeads(string filePath, Config config)
         {
             return LoadParticipants<TeamLead>(filePath, line => new TeamLead(_nextTeamLeadId++, line, config), config);
         }
