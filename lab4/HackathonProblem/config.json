@@ -1,0 +1,8 @@
+{
+  "HackathonOptions": {
+    "hackathonCount": 1000,
+    "teamsCount": 20,
+    "juniorsPath": "../../CSHARP_2024_NSU/Juniors20.csv",
+    "teamLeadsPath": "../../CSHARP_2024_NSU/TeamLeads20.csv"
+  }
+}
