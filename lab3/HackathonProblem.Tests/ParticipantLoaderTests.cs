@@ -6,7 +6,7 @@ namespace HackathonProblem.Tests
     public class ParticipantLoaderTests
     {
         private readonly ParticipantLoader _participantLoader;
-        private readonly Config _config = new Config(10, 2, "../../../../../CSHARP_2024_NSU/Juniors20.csv", "../../../../../CSHARP_2024_NSU/TeamLeads20.csv");
+        private readonly HackathonOptions _config = new HackathonOptions(10, 2, "../../../../../CSHARP_2024_NSU/Juniors20.csv", "../../../../../CSHARP_2024_NSU/TeamLeads20.csv");
 
         public ParticipantLoaderTests()
         {

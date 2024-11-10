@@ -6,7 +6,7 @@ public class HrManagerTests
 {
     private readonly Mock<ParticipantLoader> _mockParticipantLoader;
     private readonly Mock<ITeamBuildingStrategy> _mockTeamBuildingStrategy;
-    private readonly Config _config;
+    private readonly HackathonOptions _config;
     private readonly HrManager _hrManager;
 
     public HrManagerTests()
@@ -14,7 +14,7 @@ public class HrManagerTests
         _mockParticipantLoader = new Mock<ParticipantLoader>();
         _mockTeamBuildingStrategy = new Mock<ITeamBuildingStrategy>();
 
-        _config = new Config(10, 20, "../../../../../CSHARP_2024_NSU/Juniors20.csv", "../../../../../CSHARP_2024_NSU/TeamLeads20.csv");
+        _config = new HackathonOptions(10, 20, "../../../../../CSHARP_2024_NSU/Juniors20.csv", "../../../../../CSHARP_2024_NSU/TeamLeads20.csv");
 
         _hrManager = new HrManager(_mockParticipantLoader.Object, _mockTeamBuildingStrategy.Object, _config);
     }

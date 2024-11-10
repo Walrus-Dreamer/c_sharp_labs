@@ -8,7 +8,7 @@ namespace HackathonProblem.Services
     public class DumbBuildingStrategy : ITeamBuildingStrategy
     {
         public List<Team> BuildTeams(List<Employee> teamLeads, List<Employee> juniors,
-            List<Wishlist> teamLeadsWishlists, List<Wishlist> juniorsWishlists, Config config)
+            List<Wishlist> teamLeadsWishlists, List<Wishlist> juniorsWishlists, HackathonOptions config)
         {
             List<Team> team = new List<Team>();
 

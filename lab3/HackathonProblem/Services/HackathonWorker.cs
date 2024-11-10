@@ -1,10 +1,7 @@
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
 using HackathonProblem.Models;
-using HackathonProblem.Services;
-using System.Collections.Generic;
+using Microsoft.Extensions.Options;
+
 
 namespace HackathonProblem.Services
 {
@@ -13,14 +10,14 @@ namespace HackathonProblem.Services
         private readonly EmployeeLoader _employeeLoader;
         private readonly HrDirector _hrDirector;
         private readonly ITeamBuildingStrategy _teamBuildingStrategy;
-        private readonly Config _config;
+        private readonly HackathonOptions _config;
 
-        public HackathonWorker(EmployeeLoader _employeeLoader, HrDirector hrDirector, ITeamBuildingStrategy teamBuildingStrategy, Config config)
+        public HackathonWorker(EmployeeLoader _employeeLoader, HrDirector hrDirector, ITeamBuildingStrategy teamBuildingStrategy, IOptions<HackathonOptions> config)
         {
             this._employeeLoader = _employeeLoader;
             this._hrDirector = hrDirector;
             this._teamBuildingStrategy = teamBuildingStrategy;
-            this._config = config;
+            this._config = config.Value;
         }
 
         public Task StartAsync(CancellationToken cancellationToken)

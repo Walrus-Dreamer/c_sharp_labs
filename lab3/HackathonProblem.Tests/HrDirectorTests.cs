@@ -6,17 +6,17 @@ using HackathonProblem.Services;
 
 public class HrDirectorTests
 {
-    private readonly Config _config;
+    private readonly HackathonOptions _config;
 
     public HrDirectorTests()
     {
-        this._config = new Config(10, 20, "../../../../../CSHARP_2024_NSU/Juniors20.csv", "../../../../../CSHARP_2024_NSU/TeamLeads20.csv");
+        this._config = new HackathonOptions(10, 20, "../../../../../CSHARP_2024_NSU/Juniors20.csv", "../../../../../CSHARP_2024_NSU/TeamLeads20.csv");
     }
 
     private List<T> GenerateParticipants<T>(int count, string namePrefix) where T : HackathonParticipant
     {
         List<T> list = new List<T>();
-        var constructor = typeof(T).GetConstructor(new[] { typeof(int), typeof(string), typeof(Config) });
+        var constructor = typeof(T).GetConstructor(new[] { typeof(int), typeof(string), typeof(HackathonOptions) });
 
         if (constructor == null)
         {

@@ -24,7 +24,7 @@ namespace HackathonProblem.Services
                 .ToList();
         }
 
-        public LoadedEmployees LoadEmployees(Config config)
+        public LoadedEmployees LoadEmployees(HackathonOptions config)
         {
             var teamLeads = LoadEmployeeList(config.teamLeadsPath);
             var juniors = LoadEmployeeList(config.juniorsPath);

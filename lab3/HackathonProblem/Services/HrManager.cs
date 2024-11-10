@@ -4,10 +4,10 @@ namespace HackathonProblem.Services
 {
     public class HrManager
     {
-        private readonly Config _config;
+        private readonly HackathonOptions _config;
         private readonly ITeamBuildingStrategy _teamBuildingStrategy;
 
-        public HrManager(ITeamBuildingStrategy teamBuildingStrategy, Config config)
+        public HrManager(ITeamBuildingStrategy teamBuildingStrategy, HackathonOptions config)
         {
             this._teamBuildingStrategy = teamBuildingStrategy;
             this._config = config;
@@ -24,7 +24,7 @@ namespace HackathonProblem.Services
         }
 
         public List<Team> BuildTeams(List<Employee> juniors, List<Employee> teamLeads,
-            List<Wishlist> juniorsWishlists, List<Wishlist> teamLeadsWishlists, Config config)
+            List<Wishlist> juniorsWishlists, List<Wishlist> teamLeadsWishlists, HackathonOptions config)
         {
             return _teamBuildingStrategy.BuildTeams(juniors, teamLeads, juniorsWishlists, teamLeadsWishlists, config);
         }
