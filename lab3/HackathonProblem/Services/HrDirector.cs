@@ -4,13 +4,13 @@ namespace HackathonProblem.Services
 {
     public class HrDirector
     {
-        private int GetSatisfactionIndex(int[] wishlist, int employeeId)
+        private int GetSatisfactionIndex(int[] wishlist, int pickedTeammateId)
         {
-            for (int i = 0; i < wishlist.Length; i++)
+            for (int teammateIndex = 0; teammateIndex < wishlist.Length; teammateIndex++)
             {
-                if (wishlist[i] == employeeId)
+                if (wishlist[teammateIndex] == pickedTeammateId)
                 {
-                    return wishlist.Length - i;
+                    return wishlist.Length - teammateIndex;
                 }
             }
             return 0;
