@@ -8,13 +8,13 @@
             int[] randomTeams = Enumerable.Range(1, config.teamsCount + 1)
                                           .OrderBy(x => random.Next())
                                           .ToArray();
-            return new Wishlist(this.id, randomTeams);
+            return new Wishlist(id, randomTeams);
         }
 
         public Wishlist GetDefaultWishlist(HackathonOptions config)
         {
             int[] defaultTeams = Enumerable.Range(1, config.teamsCount + 1).ToArray();
-            return new Wishlist(this.id, defaultTeams);
+            return new Wishlist(id, defaultTeams);
         }
     }
 }

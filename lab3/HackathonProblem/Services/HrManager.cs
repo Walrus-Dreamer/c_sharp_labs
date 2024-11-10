@@ -9,8 +9,8 @@ namespace HackathonProblem.Services
 
         public HrManager(ITeamBuildingStrategy teamBuildingStrategy, HackathonOptions config)
         {
-            this._teamBuildingStrategy = teamBuildingStrategy;
-            this._config = config;
+            _teamBuildingStrategy = teamBuildingStrategy;
+            _config = config;
         }
 
         public List<Wishlist> GetWishlists(List<Employee> employees)
@@ -18,7 +18,7 @@ namespace HackathonProblem.Services
             List<Wishlist> wishlists = new List<Wishlist>();
             foreach (var employee in employees)
             {
-                wishlists.Add(employee.GetDefaultWishlist(this._config));
+                wishlists.Add(employee.GetDefaultWishlist(_config));
             }
             return wishlists;
         }

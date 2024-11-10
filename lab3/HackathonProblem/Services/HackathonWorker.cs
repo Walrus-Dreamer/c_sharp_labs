@@ -12,29 +12,29 @@ namespace HackathonProblem.Services
         private readonly ITeamBuildingStrategy _teamBuildingStrategy;
         private readonly HackathonOptions _config;
 
-        public HackathonWorker(EmployeeLoader _employeeLoader, HrDirector hrDirector, ITeamBuildingStrategy teamBuildingStrategy, IOptions<HackathonOptions> config)
+        public HackathonWorker(EmployeeLoader employeeLoader, HrDirector hrDirector, ITeamBuildingStrategy teamBuildingStrategy, IOptions<HackathonOptions> config)
         {
-            this._employeeLoader = _employeeLoader;
-            this._hrDirector = hrDirector;
-            this._teamBuildingStrategy = teamBuildingStrategy;
-            this._config = config.Value;
+            _employeeLoader = employeeLoader;
+            _hrDirector = hrDirector;
+            _teamBuildingStrategy = teamBuildingStrategy;
+            _config = config.Value;
         }
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
-            LoadedEmployees loadedEmployees = _employeeLoader.LoadEmployees(this._config);
+            LoadedEmployees loadedEmployees = _employeeLoader.LoadEmployees(_config);
             List<Employee> juniors = loadedEmployees.juniors;
             List<Employee> teamLeads = loadedEmployees.teamLeads;
 
             double totalHarmonicity = 0;
-            int hackathonCount = this._config.hackathonCount;
+            int hackathonCount = _config.hackathonCount;
 
             for (int i = 0; i < hackathonCount; i++)
             {
-                HrManager hrManager = new HrManager(_teamBuildingStrategy, this._config);
+                HrManager hrManager = new HrManager(_teamBuildingStrategy, _config);
                 List<Wishlist> teamLeadsWishlists = hrManager.GetWishlists(teamLeads);
                 List<Wishlist> juniorsWishlists = hrManager.GetWishlists(juniors);
-                List<Team> teams = hrManager.BuildTeams(juniors, teamLeads, juniorsWishlists, teamLeadsWishlists, this._config);
+                List<Team> teams = hrManager.BuildTeams(juniors, teamLeads, juniorsWishlists, teamLeadsWishlists, _config);
 
                 Hackathon hackathon = new Hackathon(teams, teamLeadsWishlists, juniorsWishlists);
 
