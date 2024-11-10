@@ -4,66 +4,54 @@ using HackathonProblem.Services;
 
 public class HrManagerTests
 {
-    private readonly Mock<ParticipantLoader> _mockParticipantLoader;
+    private readonly Mock<EmployeeLoader> _mockParticipantLoader;
     private readonly Mock<ITeamBuildingStrategy> _mockTeamBuildingStrategy;
     private readonly HackathonOptions _config;
     private readonly HrManager _hrManager;
 
     public HrManagerTests()
     {
-        _mockParticipantLoader = new Mock<ParticipantLoader>();
+        _mockParticipantLoader = new Mock<EmployeeLoader>();
         _mockTeamBuildingStrategy = new Mock<ITeamBuildingStrategy>();
 
-        _config = new HackathonOptions(10, 20, "../../../../../CSHARP_2024_NSU/Juniors20.csv", "../../../../../CSHARP_2024_NSU/TeamLeads20.csv");
+        _config = new HackathonOptions();
+        _config.hackathonCount = 1;
+        _config.teamsCount = 40;
+        _config.juniorsPath = "../../../../../CSHARP_2024_NSU/Juniors20.csv";
+        _config.teamLeadsPath = "../../../../../CSHARP_2024_NSU/TeamLeads20.csv";
 
-        _hrManager = new HrManager(_mockParticipantLoader.Object, _mockTeamBuildingStrategy.Object, _config);
-    }
-
-    [Fact]
-    public void LoadJuniors_ShouldReturnJuniorsList()
-    {
-        // Arrange.
-        List<Junior> expectedJuniors = new List<Junior> { new Junior(0, "Junior0", this._config), new Junior(1, "Junior1", this._config) };
-        _mockParticipantLoader.Setup(p => p.LoadJuniors(_config.juniorsPath, _config)).Returns(expectedJuniors);
-
-        // Act.
-        List<Junior> juniors = _hrManager.LoadJuniors();
-
-        // Assert.
-        Assert.Equal(expectedJuniors, juniors);
-        _mockParticipantLoader.Verify(p => p.LoadJuniors(_config.juniorsPath, _config), Times.Once);
-    }
-
-    [Fact]
-    public void LoadTeamLeads_ShouldReturnTeamLeadsList()
-    {
-        // Arrange.
-        List<TeamLead> expectedTeamLeads = new List<TeamLead> { new TeamLead(0, "TeamLead0", this._config), new TeamLead(1, "TeamLead1", this._config) };
-        _mockParticipantLoader.Setup(p => p.LoadTeamLeads(_config.teamLeadsPath, _config)).Returns(expectedTeamLeads);
-
-        // Act.
-        List<TeamLead> teamLeads = _hrManager.LoadTeamLeads();
-
-        // Assert.
-        Assert.Equal(expectedTeamLeads, teamLeads);
-        _mockParticipantLoader.Verify(p => p.LoadTeamLeads(_config.teamLeadsPath, _config), Times.Once);
+        _hrManager = new HrManager(_mockTeamBuildingStrategy.Object, _config);
     }
 
     [Fact]
     public void BuildTeams_ShouldReturnListOfPairs()
     {
         // Arrange.
-        List<Junior> juniors = new List<Junior> { new Junior(0, "Junior0", this._config), new Junior(1, "Junior1", this._config) };
-        List<TeamLead> teamLeads = new List<TeamLead> { new TeamLead(0, "TeamLead0", this._config), new TeamLead(1, "TeamLead1", this._config) };
-        List<Pair> expectedPairs = new List<Pair> { new Pair(teamLeads[0], juniors[0], _config), new Pair(teamLeads[1], juniors[1], _config) };
+        List<Employee> juniors = new List<Employee> { new Employee(0, "Junior0"), new Employee(1, "Junior1") };
+        List<Employee> teamLeads = new List<Employee> { new Employee(0, "TeamLead0"), new Employee(1, "TeamLead1") };
+        List<Team> expectedTeams = new List<Team> { new Team(teamLeads[0], juniors[0]), new Team(teamLeads[1], juniors[1]) };
+        List<Wishlist> teamLeadsWishlists = new List<Wishlist>(
+            new Wishlist[]
+            {
+                new Wishlist(1, new int[] { 1, 2 }),
+                new Wishlist(2, new int[] { 1, 2 })
+            }
+        );
+        List<Wishlist> juniorsWishlists = new List<Wishlist>(
+            new Wishlist[]
+            {
+                new Wishlist(1, new int[] { 1, 2 }),
+                new Wishlist(2, new int[] { 1, 2 })
+            }
+        );
 
-        _mockTeamBuildingStrategy.Setup(t => t.BuildTeams(juniors, teamLeads, _config)).Returns(expectedPairs);
+        _mockTeamBuildingStrategy.Setup(t => t.BuildTeams(teamLeads, juniors, teamLeadsWishlists, juniorsWishlists, _config)).Returns(expectedTeams);
 
         // Act.
-        List<Pair> pairs = _hrManager.BuildTeams(juniors, teamLeads);
+        List<Team> teams = _hrManager.BuildTeams(teamLeads, juniors, teamLeadsWishlists, juniorsWishlists, _config);
 
         // Assert.
-        Assert.Equal(expectedPairs, pairs);
-        _mockTeamBuildingStrategy.Verify(t => t.BuildTeams(juniors, teamLeads, _config), Times.Once);
+        Assert.Equal(expectedTeams, teams);
+        _mockTeamBuildingStrategy.Verify(t => t.BuildTeams(teamLeads, juniors, teamLeadsWishlists, juniorsWishlists, _config), Times.Once);
     }
 }

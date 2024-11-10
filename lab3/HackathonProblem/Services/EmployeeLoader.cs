@@ -29,7 +29,7 @@ namespace HackathonProblem.Services
             var teamLeads = LoadEmployeeList(config.teamLeadsPath);
             var juniors = LoadEmployeeList(config.juniorsPath);
 
-            if (teamLeads.Count != config.teamsCount || juniors.Count != config.teamsCount)
+            if (teamLeads.Count + juniors.Count != config.teamsCount)
             {
                 throw new Exception($"Wrong number of employees: {teamLeads.Count + juniors.Count} instead of {config.teamsCount}");
             }
