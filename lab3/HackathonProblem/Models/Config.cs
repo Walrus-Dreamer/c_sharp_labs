@@ -1,4 +1,4 @@
-namespace HackathonProblem.Models
+namespace HackathonProblem.Models // TODO: Переделать с паттерном Options pattern.
 {
     public class Config
     {

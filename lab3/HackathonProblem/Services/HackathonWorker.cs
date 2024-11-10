@@ -10,33 +10,39 @@ namespace HackathonProblem.Services
 {
     public class HackathonWorker : IHostedService
     {
-        private readonly HrManager _hrManager;
+        private readonly EmployeeLoader _employeeLoader;
         private readonly HrDirector _hrDirector;
         private readonly ITeamBuildingStrategy _teamBuildingStrategy;
         private readonly Config _config;
 
-        public HackathonWorker(HrManager hrManager, HrDirector hrDirector, ITeamBuildingStrategy teamBuildingStrategy, Config config)
+        public HackathonWorker(EmployeeLoader _employeeLoader, HrDirector hrDirector, ITeamBuildingStrategy teamBuildingStrategy, Config config)
         {
-            this._hrManager = hrManager;
+            this._employeeLoader = _employeeLoader;
             this._hrDirector = hrDirector;
             this._teamBuildingStrategy = teamBuildingStrategy;
             this._config = config;
         }
 
-
         public Task StartAsync(CancellationToken cancellationToken)
         {
-            List<Junior> juniors = _hrManager.LoadJuniors();
-            List<TeamLead> teamLeads = _hrManager.LoadTeamLeads();
+            LoadedEmployees loadedEmployees = _employeeLoader.LoadEmployees(this._config);
+            List<Employee> juniors = loadedEmployees.juniors;
+            List<Employee> teamLeads = loadedEmployees.teamLeads;
 
             double totalHarmonicity = 0;
             int hackathonCount = this._config.hackathonCount;
 
             for (int i = 0; i < hackathonCount; i++)
             {
-                Hackathon hackathon = new Hackathon(this._hrManager, juniors, teamLeads, this._config);
+                HrManager hrManager = new HrManager(_teamBuildingStrategy, this._config);
+                List<Wishlist> teamLeadsWishlists = hrManager.GetWishlists(teamLeads);
+                List<Wishlist> juniorsWishlists = hrManager.GetWishlists(juniors);
+                List<Team> teams = hrManager.BuildTeams(juniors, teamLeads, juniorsWishlists, teamLeadsWishlists, this._config);
 
-                double harmonicity = _hrDirector.CalculateHarmonicity(hackathon.teams);
+                Hackathon hackathon = new Hackathon(teams, teamLeadsWishlists, juniorsWishlists);
+
+                double harmonicity = _hrDirector.CalculateHarmonicity(hackathon);
+
                 totalHarmonicity += harmonicity;
                 Console.WriteLine($"Hackathon {i + 1}: Harmonicity = {harmonicity:F2}");
             }

@@ -1,34 +1,32 @@
-using System.Collections.Generic;
 using HackathonProblem.Models;
 
 namespace HackathonProblem.Services
 {
     public class HrManager
     {
-        private readonly ParticipantLoader _participantLoader;
         private readonly Config _config;
         private readonly ITeamBuildingStrategy _teamBuildingStrategy;
 
-        public HrManager(ParticipantLoader participantLoader, ITeamBuildingStrategy teamBuildingStrategy, Config config)
+        public HrManager(ITeamBuildingStrategy teamBuildingStrategy, Config config)
         {
-            this._participantLoader = participantLoader;
             this._teamBuildingStrategy = teamBuildingStrategy;
             this._config = config;
         }
 
-        public List<Junior> LoadJuniors()
+        public List<Wishlist> GetWishlists(List<Employee> employees)
         {
-            return _participantLoader.LoadJuniors(this._config.juniorsPath, this._config);
+            List<Wishlist> wishlists = new List<Wishlist>();
+            foreach (var employee in employees)
+            {
+                wishlists.Add(employee.GetDefaultWishlist(this._config));
+            }
+            return wishlists;
         }
 
-        public List<TeamLead> LoadTeamLeads()
+        public List<Team> BuildTeams(List<Employee> juniors, List<Employee> teamLeads,
+            List<Wishlist> juniorsWishlists, List<Wishlist> teamLeadsWishlists, Config config)
         {
-            return _participantLoader.LoadTeamLeads(this._config.teamLeadsPath, this._config);
-        }
-
-        public List<Pair> BuildTeams(List<Junior> juniors, List<TeamLead> teamLeads)
-        {
-            return _teamBuildingStrategy.BuildTeams(juniors, teamLeads, this._config);
+            return _teamBuildingStrategy.BuildTeams(juniors, teamLeads, juniorsWishlists, teamLeadsWishlists, config);
         }
     }
 }
