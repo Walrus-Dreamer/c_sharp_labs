@@ -4,6 +4,7 @@ using HackathonProblem.Services;
 using HackathonProblem.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
+using Microsoft.EntityFrameworkCore;
 
 namespace HackathonProblem
 {
@@ -20,6 +21,10 @@ namespace HackathonProblem
                 {
                     services.Configure<HackathonOptions>(hostContext.Configuration.GetSection("HackathonOptions"));
                     services.AddSingleton<IValidateOptions<HackathonOptions>, HackathonOptionsValidation>();
+
+                    services.AddDbContext<HackathonDbContext>(options =>
+                        options.UseSqlite("Data Source=hackathon.db"));
+
                     services.AddHostedService<HackathonWorker>();
                     services.AddTransient<HrManager>();
                     services.AddTransient<HrDirector>();
@@ -27,6 +32,12 @@ namespace HackathonProblem
                     services.AddScoped<ITeamBuildingStrategy, DumbBuildingStrategy>();
                 })
                 .Build();
+
+            using (var scope = host.Services.CreateScope())
+            {
+                var dbContext = scope.ServiceProvider.GetRequiredService<HackathonDbContext>();
+                dbContext.Database.EnsureCreated();
+            }
 
             host.Run();
         }
